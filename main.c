@@ -1,35 +1,101 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-void cipherEncryption(char *cipherText, int key);
+void cipherRotationE(char *cipherText, int key); //Encryption
+void cipherRotationD(char *cipherText, int key); //Decryption
 
 int main()
 {
-    int key = 0;
-    int cipherValue = 0;
-    char cipherText[200];
-    
-    printf("Enter text for encryption: \n");
-    scanf("%s", cipherText);
-    
-    printf("Enter a key value: \n");
-    scanf("%d", &key);
+	char cipherText[150];
+	int key, encryptDecrypt;
+	
+	
+	printf("Enter a meessage to encrypt/decrypt: ");
+	gets(cipherText);
+	printf("Press 1 to encrypt and 2 to decrypt: ");
+	scanf("%d", &encryptDecrypt);
+	printf("Enter key: ");
+	scanf("%d", &key);
+	
+	switch(encryptDecrypt)
+    {
+        case 1:
+	    cipherRotationE(cipherText, key);
+	    break;
+	    case 2:
+        cipherRotationD(cipherText, key);
+        break;
+	    default:
+        printf("Did not receive answer. Please try again");
+    }
 
-   
-   
-    printf("The key value is: %d\n", key);
-    printf("The encrypted text is:\n %s", cipherValue);
+	return 0;
 }
 
-void cipherEncryption(char *cipherText, int key)
+	
+void cipherRotationE(char *cipherText, int key)
 {
-    int i = 0;
-    char cipherValue;
-    while(cipherText[i] != '\0' && cipherText[200] -1 > i)
+    int i;
+    char ch;
+    for(i = 0; cipherText[i] != '\0'; ++i)
     {
-        cipherValue = (((int)cipherText[i] - 22 + key)%26 + 22);
-        i++;
-        printf("%c", cipherValue);
-    }  
+		ch = cipherText[i];
+		
+		if(ch >= 'a' && ch <= 'z')
+		{
+			ch = ch + key;
+			
+			if(ch > 'z')
+			{
+				ch = ch - 'z' + 'a' - 1;
+			}
+			
+			cipherText[i] = ch - 32;
+		}
+		else if(ch >= 'A' && ch <= 'Z')
+		{
+			ch = ch + key;
+			
+			if(ch > 'Z')
+			{
+				ch = ch - 'Z' + 'A' - 1;
+			}
+			
+			cipherText[i] = ch;
+		}
+	}
+	printf("Encrypted meessage: %s", cipherText);
+}
+
+void cipherRotationD(char *cipherText, int key)
+{
+    int i;
+    char ch;
+    for(i = 0; cipherText[i] != '\0'; ++i)
+    {
+		ch = cipherText[i];
+		
+		if(ch >= 'a' && ch <= 'z')
+		{
+			ch = ch - key;
+			
+			if(ch < 'a')
+			{
+				ch = ch + 'z' - 'a' + 1;
+			}
+			
+			cipherText[i] = ch - 32;
+		}
+		else if(ch >= 'A' && ch <= 'Z')
+		{
+			ch = ch - key;
+			
+			if(ch < 'Z')
+			{
+				ch = ch + 'Z' - 'A' + 1;
+			}
+			
+			cipherText[i] = ch;
+		}
+	}
+	printf("Decrypted meessage: %s", cipherText);
 }
