@@ -23,6 +23,8 @@ int main(void)
 void encryptionText(char *cipherText)
 {
     int i=0;
+    char decryptKey[26] = "QETUOSFHKZCBMWAXRDVYGNIJPL";
+    char encryptKey[26] = "abcdefghijklmnopqrstuvwxyz";
 	while(*(cipherText+i) != '\0')
     {
 		*(cipherText+i)=decryptKey[*(cipherText+i)-97];
@@ -34,6 +36,8 @@ void encryptionText(char *cipherText)
 void decryptionText(char *cipherText)
 {
     int i=0;
+    char decryptKey[26] = "QETUOSFHKZCBMWAXRDVYGNIJPL";
+    char encryptKey[26] = "abcdefghijklmnopqrstuvwxyz";
 	while(*(cipherText+i) != '\0'){
 		int iterations;
 		for(iterations = 0; iterations < 26; iterations++)
@@ -41,6 +45,8 @@ void decryptionText(char *cipherText)
 			if(decryptKey[iterations] == *(cipherText+i))
 			break;
 		}
-		*(cipherText+l) = encryptKey[iterations];
+		*(cipherText+ i) = encryptKey[iterations];
 		i++;
+	}
+	printf("The decrypted text is:\n %s \n", cipherText);
 }
